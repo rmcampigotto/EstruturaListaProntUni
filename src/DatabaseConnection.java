@@ -7,10 +7,10 @@ public class DatabaseConnection {
 
     // cria a conexão
     public Connection StartConnection(Connection connection) throws SQLException {
-        String jdbcUrl = "jdbc:oracle:thin:@localhost:1521/XEPDB1";
+        String jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/XEPDB1";
         Properties props = new Properties();
-        props.setProperty("user", "hr"); // Passa a propriedade usuário
-        props.setProperty("password", "hr"); // Passa a propriedade senha
+        props.setProperty("user", "prontuni"); // Passa a propriedade usuário
+        props.setProperty("password", "desafio"); // Passa a propriedade senha
 
         return connection = DriverManager.getConnection(jdbcUrl, props);
     }

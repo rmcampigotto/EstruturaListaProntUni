@@ -16,70 +16,46 @@ public class Main {
         System.out.println();
 
         DatabaseUtil dbUtil = new DatabaseUtil(connection); // — > Passa a conexão para a DatabaseUtil
+        String query;
 
-        //SELECT========================================================================================================
-        //String nomeSelect = "Rafael";
-        //String selectQuery = "SELECT * FROM Paciente WHERE nome = '" + nomeSelect + "'";
-        String selectQuery = "SELECT * FROM Paciente ORDER BY id";
-        dbUtil.realizaSelect(selectQuery);
+        int opcao = 0;
+        int opcaoSelect = 0;
 
-        //==============================================================================================================
-//        id NUMBER PRIMARY KEY NOT NULL,
-//        nome VARCHAR2(100) NOT NULL,
-//        dt_nasc DATE NOT NULL,
-//        genero VARCHAR2(1) NOT NULL,
-//        endereco VARCHAR2(100) NOT NULL,
-//        cidade VARCHAR2(50) NOT NULL,
-//        telefone NUMBER(11),
-//                upa VARCHAR2(100) NOT NULL);
+        opcao = Integer.parseInt(JOptionPane.showInputDialog("0 - SAIR\n1 - SELECT\n2 - INSERT"));
 
+        do{
+            switch (opcao) {
+                case 1:
+                    opcaoSelect = Integer.parseInt(JOptionPane.showInputDialog("1 - FULL\n2 - POR NOME\n3 - VOLTAR"));
+                    if (opcaoSelect == 1){
+                        dbUtil.realizaSelect("SELECT * FROM Paciente ORDER BY id");
+                        break;
+                    } else if (opcaoSelect == 2){
+                        String nome = JOptionPane.showInputDialog("Nome para busca: ");
+                        dbUtil.realizaSelect("SELECT * FROM Paciente WHERE nome LIKE '" + nome + "'");
+                        break;
+                    } else {
+                        opcao = Integer.parseInt(JOptionPane.showInputDialog("0 - SAIR\n1 - SELECT\n2 - INSERT"));
+                    }
+                    break;
+                case 2:
+                    int id = dbUtil.realizaSelect("SELECT * FROM Paciente").size() + 1;
+                    String nome = JOptionPane.showInputDialog("Insira o nome: ");
+                    String dt_nasc = JOptionPane.showInputDialog("Insira a data (dia/mes/ano): ");
+                    String genero = JOptionPane.showInputDialog("Insira o genero (M/F): ");
+                    String endereco = JOptionPane.showInputDialog("Insira o endereço: ");
+                    String cidade = JOptionPane.showInputDialog("Insira a cidade: ");
+                    long telefone = Long.parseLong(JOptionPane.showInputDialog("Insira o telefone: "));
+                    String ubs = JOptionPane.showInputDialog("Insira a UBS: ");
 
-        //INSERT========================================================================================================
-//        String nomeInsert = "João";
-//        String data = "01/01/2001";
-//        char genero = 'M';
-//        long numero = 44996385274L;
-//        String query = "INSERT INTO Paciente VALUES(s_contadorId.nextval, '"+ nomeInsert +"', TO_DATE('"+ data +"', 'DD/MM/YYYY'), " +
-//                       "'"+ genero +"', 'Rua Interventor Manoel Ribas, 56', 'Mandaguari',"+ numero +", 'Centro')";
-//
-//        dbUtil.realizaInsert(connection, query);
-
-//        String nomeInsert = "Joana";
-//        String data = "01/02/2004";
-//        char genero = 'F';
-//        long numero = 44965274637L;
-//        String query = "INSERT INTO Paciente VALUES(s_contadorId.nextval, '"+ nomeInsert +"', TO_DATE('"+ data +"', 'DD/MM/YYYY'), " +
-//                       "'"+ genero +"', 'Rua Pombinhas, 34', 'Maringá',"+ numero +", 'Zona Norte')";
-//
-//        dbUtil.realizaInsert(connection, query);
-
-//        String nomeInsert = "Pedro";
-//        String data = "01/10/1998";
-//        char genero = 'M';
-//        long numero = 44999120488L;
-//        String query = "INSERT INTO Paciente VALUES(s_contadorId.nextval, '"+ nomeInsert +"', TO_DATE('"+ data +"', 'DD/MM/YYYY'), " +
-//                       "'"+ genero +"', 'Rua Interventor Manoel Ribas, 56', 'Mandaguari',"+ numero +", 'Centro')";
-//
-//        dbUtil.realizaInsert(connection, query);
-        //==============================================================================================================
-
-
-        //UPDATE========================================================================================================
-//        String nomeUpdate = "Polyana";
-//        int id = 3;
-//        // UPDATE Paciente SET nome = 'Maria' WHERE id = 3;
-//        String query = "UPDATE Paciente SET nome = '"+ nomeUpdate+"' WHERE id = "+ id;
-//
-//        dbUtil.realizaUpdate(connection, query);
-
-//        String enderecoUpdate = "Rua Padre José, 78";
-//        int id = 4;
-//        // UPDATE Paciente SET nome = 'Maria' WHERE id = 3;
-//        String query = "UPDATE Paciente SET endereco = '"+ enderecoUpdate+"' WHERE id = "+ id;
-//
-//        dbUtil.realizaUpdate(connection, query);
-
-        //==============================================================================================================
+                    dbUtil.realizaInsert(connection, "INSERT INTO Paciente (id, nome, dt_nasc, genero, endereco, cidade, telefone, ubs)" +
+                            " VALUES ("+id+","+nome+","+dt_nasc+","+genero+","+endereco+","+cidade+","+telefone+","+ubs+")");
+                    break;
+                default:
+                    if (opcao != 0)
+                        JOptionPane.showMessageDialog(null,"Opção inválida.\n");
+            }
+        }while(opcao != 0);
 
         System.out.println();
         databaseConnection.CloseConnection(connection); // — > Fechar conexão

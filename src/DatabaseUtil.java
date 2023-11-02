@@ -39,6 +39,7 @@ public class DatabaseUtil {
         System.out.println();
 
         return results;
+
     }
 
 
@@ -57,7 +58,7 @@ public class DatabaseUtil {
             System.out.println(rowsAffected + " linhas inseridas com sucesso!");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Erro SQL: " + e);
         }
     }
 
